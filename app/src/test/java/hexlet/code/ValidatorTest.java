@@ -23,17 +23,22 @@ class ValidatorTest {
     @CsvSource({
         "5, 4, 6, true",
         "5, 6, 8, false",
-        "5, 2, 4, false"
+        "5, 2, 4, false",
+        "0, 0, 0, false"
     })
     void testWithRequirementForNumberSchema(int number, int min, int max, boolean expectedResult) {
-        boolean actual = validator.number().required().positive().range(min, max).isValid(number);
+        boolean actual = validator.number().positive().range(min, max).isValid(number);
         Assertions.assertEquals(expectedResult, actual);
     }
 
     @Test
-    void testWithNull() {
-        String text = "";
-        boolean actual = new StringSchema().required().isValid(text);
+    void testWithNullStringSchema() {
+        boolean actual = validator.string().required().isValid(null);
+        Assertions.assertNotNull(actual);
+    }
+    @Test
+    void testWithNullNumberSchema() {
+        boolean actual = validator.number().required().isValid(null);
         Assertions.assertNotNull(actual);
     }
 }
