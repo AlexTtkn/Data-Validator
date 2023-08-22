@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 class ValidatorTest {
     private final Validator validator = new Validator();
 
@@ -30,15 +34,44 @@ class ValidatorTest {
         boolean actual = validator.number().positive().range(min, max).isValid(number);
         Assertions.assertEquals(expectedResult, actual);
     }
+    @ParameterizedTest
+    @CsvSource({
+        "key1, value1, 1, true",
+        "key1, value1, 2, false",
+        "key1, value1, 0, false",
+    })
+    void testWithRequirementForMapSchema(String key, String value, int size, boolean expectedResult) {
+        Map<String, String> testMap = new HashMap<>();
+        testMap.put(key, value);
+        boolean actual = validator.map().required().sizeof(size).isValid(testMap);
+        Assertions.assertEquals(expectedResult, actual);
+    }
 
     @Test
     void testWithNullStringSchema() {
         boolean actual = validator.string().required().isValid(null);
-        Assertions.assertNotNull(actual);
+        Assertions.assertFalse(actual);
     }
     @Test
     void testWithNullNumberSchema() {
         boolean actual = validator.number().required().isValid(null);
-        Assertions.assertNotNull(actual);
+        Assertions.assertFalse(actual);
     }
+    @Test
+    void testWithNullMapSchema() {
+        boolean actual = validator.map().required().isValid(null);
+        Assertions.assertFalse(actual);
+    }
+
+//    @Test
+//    void test() {
+//        Class<?> clazz = Validator.class;
+//        Constructor<?>[] constructors = clazz.getConstructors();
+//
+//        List<Constructor<?>> constructorList = new ArrayList<>(Arrays.asList(constructors));
+//
+//        for (Constructor<?> constructor : constructorList) {
+//            boolean actual = validator.constructor.required().isValid(null);
+//        }
+//    }
 }
