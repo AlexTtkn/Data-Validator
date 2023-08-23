@@ -1,5 +1,7 @@
 package hexlet.code;
 
+import hexlet.code.schemas.BaseSchema;
+import hexlet.code.schemas.MapSchema;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,6 +13,7 @@ import java.util.Map;
 
 class ValidatorTest {
     private final Validator validator = new Validator();
+    private final Map<String, BaseSchema> schemas = new HashMap<>();
 
     @ParameterizedTest
     @CsvSource({
@@ -34,6 +37,7 @@ class ValidatorTest {
         boolean actual = validator.number().positive().range(min, max).isValid(number);
         Assertions.assertEquals(expectedResult, actual);
     }
+
     @ParameterizedTest
     @CsvSource({
         "key1, value1, 1, true",
@@ -52,26 +56,75 @@ class ValidatorTest {
         boolean actual = validator.string().required().isValid(null);
         Assertions.assertFalse(actual);
     }
+
     @Test
     void testWithNullNumberSchema() {
         boolean actual = validator.number().required().isValid(null);
         Assertions.assertFalse(actual);
     }
+
     @Test
     void testWithNullMapSchema() {
         boolean actual = validator.map().required().isValid(null);
         Assertions.assertFalse(actual);
     }
 
-//    @Test
-//    void test() {
-//        Class<?> clazz = Validator.class;
-//        Constructor<?>[] constructors = clazz.getConstructors();
-//
-//        List<Constructor<?>> constructorList = new ArrayList<>(Arrays.asList(constructors));
-//
-//        for (Constructor<?> constructor : constructorList) {
-//            boolean actual = validator.constructor.required().isValid(null);
-//        }
-//    }
+    @Test
+    void testShape1() {
+        MapSchema schema = validator.map();
+        schemas.put("name", validator.string().required());
+        schemas.put("age", validator.number().positive());
+        schema.shape(schemas);
+
+        Map<String, Object> human1 = new HashMap<>();
+        human1.put("name", "Kolya");
+        human1.put("age", 100);
+        schema.isValid(human1);
+
+        Assertions.assertTrue(schema.isValid(human1));
+    }
+
+    @Test
+    void testShape2() {
+        MapSchema schema = validator.map();
+        schemas.put("name", validator.string().required());
+        schemas.put("age", validator.number().positive());
+        schema.shape(schemas);
+
+        Map<String, Object> human2 = new HashMap<>();
+        human2.put("name", "Maya");
+        human2.put("age", null);
+
+        Assertions.assertTrue(schema.isValid(human2));
+    }
+
+    @Test
+    void testShape3() {
+        MapSchema schema = validator.map();
+        schemas.put("name", validator.string().required());
+        schemas.put("age", validator.number().positive());
+        schema.shape(schemas);
+
+        Map<String, Object> human3 = new HashMap<>();
+        human3.put("name", "");
+        human3.put("age", null);
+        schema.isValid(human3);
+
+        Assertions.assertFalse(schema.isValid(human3));
+    }
+
+    @Test
+    void testShape4() {
+        MapSchema schema = validator.map();
+        schemas.put("name", validator.string().required());
+        schemas.put("age", validator.number().positive());
+        schema.shape(schemas);
+
+        Map<String, Object> human4 = new HashMap<>();
+        human4.put("name", "Valya");
+        human4.put("age", -5);
+        schema.isValid(human4);
+
+        Assertions.assertFalse(schema.isValid(human4));
+    }
 }
