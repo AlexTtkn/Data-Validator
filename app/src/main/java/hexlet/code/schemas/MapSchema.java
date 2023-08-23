@@ -13,4 +13,10 @@ public class MapSchema extends BaseSchema {
         addError("sizeof", value -> value == null || ((Map<?, ?>) value).size() == size);
         return this;
     }
+
+    public MapSchema shape(Map<String, BaseSchema> schemas) {
+        addError("shape", value -> schemas.entrySet().stream()
+                .allMatch(entry -> entry.getValue().isValid(((Map<?, ?>) value).get(entry.getKey()))));
+        return this;
+    }
 }
