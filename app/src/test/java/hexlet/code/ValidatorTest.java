@@ -70,7 +70,7 @@ class ValidatorTest {
     }
 
     @Test
-    void testShape1() {
+    void testWithRequirementForShape1() {
         MapSchema schema = validator.map();
         schemas.put("name", validator.string().required());
         schemas.put("age", validator.number().positive());
@@ -85,7 +85,7 @@ class ValidatorTest {
     }
 
     @Test
-    void testShape2() {
+    void testWithRequirementForShape2() {
         MapSchema schema = validator.map();
         schemas.put("name", validator.string().required());
         schemas.put("age", validator.number().positive());
@@ -99,7 +99,7 @@ class ValidatorTest {
     }
 
     @Test
-    void testShape3() {
+    void testWithRequirementForShapeWithoutName() {
         MapSchema schema = validator.map();
         schemas.put("name", validator.string().required());
         schemas.put("age", validator.number().positive());
@@ -114,7 +114,7 @@ class ValidatorTest {
     }
 
     @Test
-    void testShape4() {
+    void testWithRequirementForShapeNegativeNumber() {
         MapSchema schema = validator.map();
         schemas.put("name", validator.string().required());
         schemas.put("age", validator.number().positive());
