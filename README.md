@@ -10,7 +10,7 @@ There are numerous such libraries available in each programming language, as alm
 work with external data that needs to be checked for accuracy. Primarily, this concerns data from user-filled forms. 
 The project is based on the [yup](https://github.com/jquense/yup) library.
 
-## Examples
+## Examples:
 ```java
 import hexlet.code.Validator;
 import hexlet.code.schemas.StringSchema;
