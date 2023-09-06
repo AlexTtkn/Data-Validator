@@ -11,7 +11,7 @@ work with external data that needs to be checked for accuracy. Primarily, this c
 The project is based on the [yup](https://github.com/jquense/yup) library.
 
 ## Examples
-```
+```java
 import hexlet.code.Validator;
 import hexlet.code.schemas.StringSchema;
 import hexlet.code.schemas.NumberSchema;
