@@ -7,11 +7,11 @@ import java.util.function.Predicate;
 public abstract class BaseSchema {
     private final Map<String, Predicate<Object>> validator = new HashMap<>();
 
-    public boolean isValid(Object obj) {
+    public final boolean isValid(Object obj) {
         return validator.values().stream().allMatch(error -> error.test(obj));
     }
 
-    public void addValidator(String errorType, Predicate<Object> error) {
+    public final void addValidator(String errorType, Predicate<Object> error) {
         validator.put(errorType, error);
     }
 }
