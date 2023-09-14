@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class BaseSchema {
+public abstract class BaseSchema {
     private final Map<String, Predicate<Object>> validator = new HashMap<>();
 
     public boolean isValid(Object obj) {
