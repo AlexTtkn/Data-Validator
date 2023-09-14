@@ -8,7 +8,7 @@ public class NumberSchema extends BaseSchema {
     }
 
     public NumberSchema positive() {
-        addValidator("positive", value -> (value == null) || ((int) value > 0));
+        addValidator("positive", value -> (value == null) || value instanceof Integer && ((int) value > 0));
         return this;
     }
 
